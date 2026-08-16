@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/*
+  AJ Gadgets brand tokens — derived from the logo:
+  deep near-black base, electric blue accent (shield/lightning),
+  cool silver for secondary text, soft ice-blue for glows/highlights.
+*/
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
+
+  --bg: #05070c;
+  --bg-elevated: #0d1220;
+  --bg-elevated-2: #131a2c;
+  --border: #1e2740;
+
+  --text-primary: #f4f6fb;
+  --text-secondary: #9aa4bf;
+  --text-muted: #5c6787;
+
+  --accent: #2f6fed;
+  --accent-bright: #4f8bff;
+  --accent-glow: #7db2ff;
+  --accent-silver: #c7ccd6;
+}
+
+/* Force this exact theme regardless of OS/browser dark-mode inversion */
+html {
+  color-scheme: dark;
+  background: var(--bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-bright);
+  outline-offset: 2px;
+}
+
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.border-hairline { border-color: var(--border); }
+.bg-elevated { background: var(--bg-elevated); }
+.bg-elevated-2 { background: var(--bg-elevated-2); }
+
+.accent-gradient-text {
+  background: linear-gradient(90deg, var(--accent-glow), var(--accent-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
