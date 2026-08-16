@@ -1,12 +1,22 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { useCartStore } from "@/store/cart";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header() {
   const { t } = useLanguage();
+  const totalQuantity = useCartStore((s) => s.totalQuantity());
+
+  // The cart is persisted in localStorage, which the server can't read
+  // during the initial render. Only show the badge after the component
+  // has mounted on the client, so server and client markup match on the
+  // very first paint (avoids a hydration mismatch).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
     <header className="sticky top-0 z-40 border-b border-hairline bg-[color:var(--bg)]/85 backdrop-blur-md">
@@ -44,9 +54,17 @@ export function Header() {
           <LanguageSwitcher />
           <Link
             href="/cart"
-            className="text-sm text-secondary transition-colors hover:text-[color:var(--accent-glow)]"
+            className="relative text-sm text-secondary transition-colors hover:text-[color:var(--accent-glow)]"
           >
             {t.nav.cart}
+            {mounted && totalQuantity > 0 && (
+              <span
+                className="absolute -right-3 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-medium text-white"
+                style={{ background: "var(--accent)" }}
+              >
+                {totalQuantity}
+              </span>
+            )}
           </Link>
         </div>
       </div>

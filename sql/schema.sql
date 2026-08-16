@@ -100,3 +100,23 @@ create policy "public can add order items" on order_items for insert with check 
 -- No public policies on admin_users, and no public select/update/delete policies
 -- on orders/order_items — the admin panel uses the service_role key server-side
 -- for all of that, which bypasses RLS entirely.
+
+-- Baseline Postgres grants. RLS policies above control WHICH ROWS a role
+-- can see/insert, but the role still needs a basic GRANT to touch the
+-- table at all — without this, queries fail with "permission denied for
+-- table ..." even though the RLS policies look correct.
+grant usage on schema public to anon, authenticated;
+
+grant select on categories to anon, authenticated;
+grant select on products to anon, authenticated;
+grant select on settings to anon, authenticated;
+
+grant insert on orders to anon, authenticated;
+grant insert on order_items to anon, authenticated;
+
+-- The secret/service_role key (used server-side by the admin client)
+-- bypasses RLS, but still needs baseline grants — RLS bypass and
+-- table-level grants are separate permission layers in Postgres.
+grant usage on schema public to service_role;
+grant all privileges on all tables in schema public to service_role;
+grant all privileges on all sequences in schema public to service_role;

@@ -1,69 +1,64 @@
-# AJ Gadgets — Phase 1 (Foundation)
+# AJ Gadgets — Phase 1 & 2
 
-This is the foundation of the AJ Gadgets e-commerce site: Next.js + Tailwind
-project scaffold, Supabase database schema, base layout (header, footer,
-language switcher, WhatsApp button), and Bengali/English translations.
+Phase 1: project foundation, brand theme, database schema.
+Phase 2: product listing, product detail, cart, and checkout with COD +
+Dhaka/Outside-Dhaka delivery fee logic.
 
-## What's included in Phase 1
-- Next.js 16 (App Router) + TypeScript + Tailwind CSS
-- Supabase client setup (`src/lib/supabase.ts`) — public client + admin client
-- Database schema (`sql/schema.sql`) — products, categories, orders,
-  order_items, settings, admin_users, with Row Level Security policies
-- Base layout: header with nav + language switcher, footer, floating
-  WhatsApp button
-- Bengali/English language switching (`src/i18n/`)
-- Placeholder homepage (real product grid comes in Phase 2)
+## What's new in Phase 2
+- `/shop` — product grid with category filter pills
+- `/shop/[id]` — product detail page with Add to cart / Buy now
+- `/cart` — cart page with quantity controls (persisted in the browser)
+- `/checkout` — customer details form, delivery zone selector, live total
+- `/order-confirmation/[id]` — confirmation page after placing an order
+- `POST /api/checkout` — creates the order. Prices and delivery fees are
+  always recalculated server-side from the database, never trusted from
+  the browser, so nothing can be tampered with from the client.
+- `GET /api/settings/delivery-fees` — used by the checkout page to show
+  current fees
+- Homepage now pulls real "Featured products" from the database
+- Cart item count badge in the header
 
-## Setup instructions
+## Setup (same as Phase 1, plus one step)
 
 ### 1. Install dependencies
 ```bash
 npm install
 ```
 
-### 2. Set up the database
-1. Go to your Supabase project → **SQL Editor** → **New query**
-2. Paste the entire contents of `sql/schema.sql`
-3. Click **Run**
+### 2. Database
+If you haven't already, run `sql/schema.sql` in Supabase SQL Editor.
 
-This creates all tables, sets default delivery fees (৳60 Dhaka / ৳120
-outside Dhaka — editable later from the admin Settings page), and sets up
-Row Level Security so the public can only read products/categories/settings
-and submit orders, never read or edit other people's orders.
+**New for Phase 2:** optionally run `sql/seed.sql` afterwards to add 5
+sample categories and 3 sample products, so you have something to click
+through immediately. Safe to delete this test data later from the database
+directly (admin panel for deleting products comes in Phase 3).
 
-### 3. Configure environment variables
-1. Copy `.env.local.example` to `.env.local`
-2. Fill in values from Supabase → **Project Settings → API**:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `SUPABASE_SERVICE_ROLE_KEY` (keep secret — server-side only)
-3. Generate a session secret for admin login:
-   ```bash
-   openssl rand -base64 32
-   ```
-   Paste it as `ADMIN_SESSION_SECRET`
-4. Set `NEXT_PUBLIC_WHATSAPP_NUMBER` to your WhatsApp number in international
-   format, digits only (e.g. `8801XXXXXXXXX`)
+### 3. Environment variables
+Same `.env.local` as Phase 1 — no new variables needed for Phase 2.
 
 ### 4. Run locally
 ```bash
 npm run dev
 ```
-Visit http://localhost:3000 — you should see the homepage with the language
-switcher and floating WhatsApp button working.
+Visit http://localhost:3000 → click "Shop now" → pick a product → add to
+cart → checkout with a test name/phone/address → you'll land on an order
+confirmation page. Check your Supabase **Table Editor → orders** and
+**order_items** to see the order that was just created.
 
-## Project structure
-```
-src/
-  app/            Pages (App Router)
-  components/     Header, Footer, WhatsAppButton, LanguageSwitcher
-  i18n/           Bengali/English dictionary + LanguageProvider
-  lib/            Supabase clients
-  types/          Shared TypeScript types
-sql/
-  schema.sql      Full database schema — run once in Supabase SQL Editor
-```
+## How the pricing/security works
+- The cart only stores product id, name, and a *display* price — nothing
+  from the cart is trusted at checkout time.
+- `/api/checkout` looks up each product's real price and stock status
+  directly from the database, and looks up the current delivery fee from
+  the `settings` table, before creating the order. This means even if
+  someone tampered with prices in their browser, the order is always
+  charged correctly.
+- Order confirmation and checkout both use the Supabase **service_role**
+  key server-side only — this is intentional, since the `orders` table
+  has no public read policy (customers shouldn't be able to browse each
+  other's orders).
 
-## Next: Phase 2
-Product listing, product detail pages, cart, and checkout with the
-Dhaka/Outside-Dhaka delivery fee logic.
+## Next: Phase 3
+Admin panel — login, product management (add/edit/delete + image upload),
+orders dashboard with status updates, and a settings page to edit delivery
+fees without touching the database directly.
