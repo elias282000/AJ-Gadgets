@@ -24,8 +24,31 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-[color:var(--bg)]">
-      <aside className="flex w-56 shrink-0 flex-col border-r border-hairline p-4">
+    <div className="flex min-h-screen flex-col bg-[color:var(--bg)] sm:flex-row">
+      {/* Mobile top bar — visible below the sm breakpoint only */}
+      <header className="flex items-center justify-between border-b border-hairline p-3 sm:hidden">
+        <Link href="/admin/products" className="flex items-center gap-2">
+          <Image
+            src="/logo-icon.png"
+            alt="AJ Gadgets"
+            width={24}
+            height={24}
+            className="rounded-md"
+          />
+          <span className="text-sm font-semibold text-[color:var(--text-primary)]">
+            Admin
+          </span>
+        </Link>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-muted">{session.username}</span>
+        </div>
+      </header>
+      <div className="border-b border-hairline px-3 pb-3 sm:hidden">
+        <AdminNav orientation="horizontal" />
+      </div>
+
+      {/* Desktop sidebar — hidden below the sm breakpoint */}
+      <aside className="hidden w-56 shrink-0 flex-col border-r border-hairline p-4 sm:flex">
         <Link href="/admin/products" className="mb-6 flex items-center gap-2 px-1">
           <Image
             src="/logo-icon.png"
@@ -48,6 +71,12 @@ export default async function DashboardLayout({
       </aside>
 
       <main className="min-w-0 flex-1">{children}</main>
+
+      {/* Mobile logout — placed at the bottom of the scroll so it doesn't
+          compete with the compact top bar, but is still always reachable. */}
+      <div className="border-t border-hairline p-3 sm:hidden">
+        <LogoutButton />
+      </div>
     </div>
   );
 }

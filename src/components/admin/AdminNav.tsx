@@ -9,18 +9,24 @@ const NAV_ITEMS = [
   { href: "/admin/settings", label: "Settings" },
 ];
 
-export function AdminNav() {
+export function AdminNav({
+  orientation = "vertical",
+}: {
+  orientation?: "vertical" | "horizontal";
+}) {
   const pathname = usePathname();
 
   return (
-    <nav className="space-y-1">
+    <nav className={orientation === "vertical" ? "space-y-1" : "flex gap-1.5"}>
       {NAV_ITEMS.map((item) => {
         const active = pathname.startsWith(item.href);
         return (
           <Link
             key={item.href}
             href={item.href}
-            className={`block rounded-lg px-3 py-2 text-sm transition-colors ${
+            className={`rounded-lg px-3 py-2 text-sm transition-colors ${
+              orientation === "vertical" ? "block" : "shrink-0"
+            } ${
               active
                 ? "bg-[color:var(--accent)]/15 text-[color:var(--accent-glow)]"
                 : "text-secondary hover:bg-elevated-2 hover:text-[color:var(--text-primary)]"

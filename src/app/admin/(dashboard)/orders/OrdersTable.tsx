@@ -50,8 +50,8 @@ export function OrdersTable({ orders }: { orders: Order[] }) {
     <div className="mt-6">
       {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
 
-      <div className="overflow-hidden rounded-2xl border border-hairline">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto rounded-2xl border border-hairline">
+        <table className="w-full min-w-[640px] text-sm">
           <thead>
             <tr className="border-b border-hairline bg-elevated text-left text-secondary">
               <th className="px-4 py-3 font-medium">Order</th>
