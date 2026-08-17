@@ -2,7 +2,7 @@ export type Locale = "en" | "bn";
 
 export const dictionary = {
   en: {
-    siteName: "AJ Gadgets",
+    siteName: "AJ Gadgets & Toy",
     tagline: "Wireless headphones, AirPods, smartwatches & accessories",
     nav: {
       home: "Home",
@@ -38,7 +38,7 @@ export const dictionary = {
     },
   },
   bn: {
-    siteName: "এজে গ্যাজেটস",
+    siteName: "এজে গ্যাজেটস অ্যান্ড টয়",
     tagline: "ওয়্যারলেস হেডফোন, এয়ারপডস, স্মার্টওয়াচ ও অ্যাকসেসরিজ",
     nav: {
       home: "হোম",

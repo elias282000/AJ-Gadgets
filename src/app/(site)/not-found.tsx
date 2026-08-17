@@ -6,7 +6,7 @@ export default function NotFound() {
     <div className="flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
       <Image
         src="/logo-icon.png"
-        alt="AJ Gadgets"
+        alt="AJ Gadgets & Toy"
         width={56}
         height={56}
         className="rounded-xl opacity-80"

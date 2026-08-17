@@ -44,7 +44,7 @@ export default function AdminLoginPage() {
         <div className="mb-8 flex flex-col items-center">
           <Image
             src="/logo-icon.png"
-            alt="AJ Gadgets"
+            alt="AJ Gadgets & Toy"
             width={48}
             height={48}
             className="rounded-xl"

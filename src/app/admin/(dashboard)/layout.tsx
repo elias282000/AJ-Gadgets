@@ -30,7 +30,7 @@ export default async function DashboardLayout({
         <Link href="/admin/products" className="flex items-center gap-2">
           <Image
             src="/logo-icon.png"
-            alt="AJ Gadgets"
+            alt="AJ Gadgets & Toy"
             width={24}
             height={24}
             className="rounded-md"
@@ -52,7 +52,7 @@ export default async function DashboardLayout({
         <Link href="/admin/products" className="mb-6 flex items-center gap-2 px-1">
           <Image
             src="/logo-icon.png"
-            alt="AJ Gadgets"
+            alt="AJ Gadgets & Toy"
             width={28}
             height={28}
             className="rounded-md"

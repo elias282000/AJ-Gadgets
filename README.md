@@ -1,4 +1,4 @@
-# AJ Gadgets — Phase 1, 2 & 3
+# AJ Gadgets & Toy — Phase 1, 2 & 3
 
 Phase 1: foundation, brand theme, database schema.
 Phase 2: storefront — product listing, cart, checkout with COD + delivery fees.

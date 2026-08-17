@@ -13,7 +13,7 @@ export function Footer() {
         <div className="flex items-center gap-2.5">
           <Image
             src="/logo-icon.png"
-            alt="AJ Gadgets"
+            alt="AJ Gadgets & Toy"
             width={28}
             height={28}
             className="rounded-md"

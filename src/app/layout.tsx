@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: "AJ Gadgets — Headphones, AirPods, Smartwatches & Accessories",
+  title: "AJ Gadgets & Toy — Headphones, AirPods, Smartwatches & Accessories",
   description:
     "Shop wireless headphones, AirPods, smartwatches, and gadget accessories. Cash on delivery across Bangladesh.",
 };

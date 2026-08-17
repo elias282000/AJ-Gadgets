@@ -9,7 +9,7 @@ export function WhatsAppButton() {
   if (!number) return null;
 
   const href = `https://wa.me/${number}?text=${encodeURIComponent(
-    "Hi! I have a question about a product on AJ Gadgets."
+    "Hi! I have a question about a product on AJ Gadgets & Toy."
   )}`;
 
   return (
