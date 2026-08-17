@@ -22,7 +22,6 @@ export function ShopClient({
         {t.shop.title}
       </h1>
 
-      {/* Category filter pills */}
       <div className="mt-6 flex flex-wrap gap-2">
         <Link
           href="/shop"
@@ -49,7 +48,6 @@ export function ShopClient({
         ))}
       </div>
 
-      {/* Product grid */}
       {products.length === 0 ? (
         <p className="mt-16 text-secondary">{t.shop.empty}</p>
       ) : (
