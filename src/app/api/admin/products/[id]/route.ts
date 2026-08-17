@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 interface ProductPayload {
@@ -63,6 +64,10 @@ export async function PATCH(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  revalidatePath("/");
+  revalidatePath("/shop");
+  revalidatePath(`/shop/${id}`);
+
   return NextResponse.json({ product: data });
 }
 
@@ -79,6 +84,10 @@ export async function DELETE(
     console.error("delete product error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  revalidatePath("/");
+  revalidatePath("/shop");
+  revalidatePath(`/shop/${id}`);
 
   return NextResponse.json({ ok: true });
 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 interface ProductPayload {
@@ -55,6 +56,11 @@ export async function POST(req: NextRequest) {
     console.error("create product error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  // Bust the cached homepage/shop listing so the new product shows up
+  // immediately instead of waiting for the 5-minute revalidation window.
+  revalidatePath("/");
+  revalidatePath("/shop");
 
   return NextResponse.json({ product: data });
 }

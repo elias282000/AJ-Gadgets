@@ -3,7 +3,13 @@ import { ProductCard } from "@/components/ProductCard";
 import { HeroText } from "@/components/HeroText";
 import { FeaturedHeading, FeaturedEmptyMessage } from "@/components/FeaturedHeading";
 
-export const revalidate = 0;
+// Product catalog changes rarely (per the project's own requirements —
+// small catalog, infrequent updates), so this page is cached and served
+// instantly instead of hitting Supabase on every visit. Admin actions
+// (add/edit/delete product) call revalidatePath() to bust this cache
+// immediately, so changes still show up right away — this 5-minute window
+// is just a safety net, not the primary freshness mechanism.
+export const revalidate = 300;
 
 export default async function Home() {
   const featured = await getFeaturedProducts(4);

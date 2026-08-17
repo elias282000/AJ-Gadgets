@@ -24,7 +24,12 @@ export const dictionary = {
     shop: {
       title: "Shop",
       all: "All",
-      empty: "No products found in this category yet.",
+      empty: "No products found matching your filters.",
+      searchPlaceholder: "Search products…",
+      minPrice: "Min ৳",
+      maxPrice: "Max ৳",
+      apply: "Apply",
+      clearFilters: "Clear filters",
     },
     footer: {
       contact: "Contact us",
@@ -54,7 +59,12 @@ export const dictionary = {
     shop: {
       title: "শপ",
       all: "সব",
-      empty: "এই ক্যাটাগরিতে এখনো কোনো পণ্য নেই।",
+      empty: "আপনার ফিল্টার অনুযায়ী কোনো পণ্য পাওয়া যায়নি।",
+      searchPlaceholder: "পণ্য খুঁজুন…",
+      minPrice: "সর্বনিম্ন ৳",
+      maxPrice: "সর্বোচ্চ ৳",
+      apply: "প্রয়োগ করুন",
+      clearFilters: "ফিল্টার মুছুন",
     },
     footer: {
       contact: "যোগাযোগ করুন",

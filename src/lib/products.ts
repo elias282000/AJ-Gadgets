@@ -14,14 +14,40 @@ export async function getCategories(): Promise<Category[]> {
   return data ?? [];
 }
 
-export async function getProducts(categorySlug?: string): Promise<Product[]> {
-  let query = supabase
-    .from("products")
-    .select("*, categories!inner(slug)")
-    .order("created_at", { ascending: false });
+export interface ProductFilters {
+  categorySlug?: string;
+  search?: string;
+  minPrice?: number;
+  maxPrice?: number;
+}
+
+export async function getProducts(filters: ProductFilters = {}): Promise<Product[]> {
+  const { categorySlug, search, minPrice, maxPrice } = filters;
+
+  // Only inner-join (and thus filter) on category when actually filtering
+  // by one. A plain inner join here would silently hide any uncategorized
+  // product from the "All" view.
+  let query = categorySlug
+    ? supabase.from("products").select("*, categories!inner(slug)")
+    : supabase.from("products").select("*, categories(slug)");
+
+  query = query.order("created_at", { ascending: false });
 
   if (categorySlug) {
     query = query.eq("categories.slug", categorySlug);
+  }
+
+  if (search?.trim()) {
+    const term = search.trim().replace(/[%_]/g, "\\$&");
+    query = query.or(`name.ilike.%${term}%,name_bn.ilike.%${term}%`);
+  }
+
+  if (typeof minPrice === "number" && !Number.isNaN(minPrice)) {
+    query = query.gte("price", minPrice);
+  }
+
+  if (typeof maxPrice === "number" && !Number.isNaN(maxPrice)) {
+    query = query.lte("price", maxPrice);
   }
 
   const { data, error } = await query;

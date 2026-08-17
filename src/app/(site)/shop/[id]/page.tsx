@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import { getProductById } from "@/lib/products";
 import { ProductDetailClient } from "./ProductDetailClient";
 
-export const revalidate = 0;
+// Cached the same way as the homepage — see comment there. Busted
+// immediately on edit/delete via revalidatePath in the admin API routes.
+export const revalidate = 300;
 
 export default async function ProductPage({
   params,

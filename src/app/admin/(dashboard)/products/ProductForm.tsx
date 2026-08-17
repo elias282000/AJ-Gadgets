@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Category, Product } from "@/types";
+import { compressImage } from "@/lib/compressImage";
 
 export function ProductForm({
   categories,
@@ -39,7 +40,7 @@ export function ProductForm({
 
     for (const file of Array.from(files)) {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", await compressImage(file));
 
       try {
         const res = await fetch("/api/admin/products/upload-image", {

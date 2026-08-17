@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { slugify } from "@/lib/slug";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -60,6 +61,8 @@ export async function PATCH(
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  revalidatePath("/shop");
+
   return NextResponse.json({ category: data });
 }
 
@@ -78,6 +81,8 @@ export async function DELETE(
     console.error("delete category error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  revalidatePath("/shop");
 
   return NextResponse.json({ ok: true });
 }
