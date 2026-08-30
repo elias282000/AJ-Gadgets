@@ -119,7 +119,7 @@ export function OrdersTable({ orders }: { orders: Order[] }) {
                       <p className="mt-1 text-secondary">{order.address}</p>
                       <p className="mt-3 text-xs text-muted">Items</p>
                       <div className="mt-1 space-y-1">
-                        {order.items?.map((item) => (
+                        {(order.items ?? ((order as any).order_items as import("@/types").OrderItem[]) ?? []).map((item) => (
                           <div key={item.id} className="flex justify-between text-secondary">
                             <span>
                               {item.product_name_snapshot} × {item.quantity}

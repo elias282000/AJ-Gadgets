@@ -146,8 +146,10 @@ export async function POST(req: NextRequest) {
 
     if (itemsError) {
       console.error("checkout: failed to insert order items:", itemsError.message);
-      // Roll back the order if items failed to insert
-      await admin.from("orders").delete().eq("id", order.id);
+      const { error: deleteError } = await admin.from("orders").delete().eq("id", order.id);
+      if (deleteError) {
+        console.error("checkout: failed to roll back order:", deleteError.message);
+      }
       return NextResponse.json(
         { error: `Failed to save order items: ${itemsError.message}` },
         { status: 500 }

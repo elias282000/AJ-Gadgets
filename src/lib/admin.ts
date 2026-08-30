@@ -52,14 +52,14 @@ export async function adminGetOrders(): Promise<Order[]> {
   const admin = getSupabaseAdmin();
   const { data, error } = await admin
     .from("orders")
-    .select("*, order_items(*)")
+    .select("*, items:order_items(*)")
     .order("created_at", { ascending: false });
 
   if (error) {
     console.error("adminGetOrders error:", error.message);
     return [];
   }
-  return (data ?? []) as unknown as Order[];
+  return (data ?? []) as Order[];
 }
 
 export async function adminGetSettings(): Promise<{
